@@ -3,47 +3,26 @@ package app;
 class Main implements Printer {
 
 
-    public static class Message {
-        private final String text;  // Mark fields as final
-        private final String sender;  // Mark fields as final
-
-        // Constructor for all parameters
-        public Message(String text, String sender) {
-            this.text = text;
-            this.sender = sender;
-        }
-
-        // Getters only (Setters removed)
-        public String getText() {
-            return text;
-        }
-
-        public String getSender() {
-            return sender;
-        }
+    public record Message(String text, String sender) {
     }
 
-    // Step 3: Implement the print method
     @Override
     public void print(Message message) {
-        if (message.getSender() == null || message.getSender().isEmpty()) {
-            if (message.getText() == null || message.getText().isEmpty()) {
-                // Replace anonymous class with a lambda expression
+        if (message.sender() == null || message.sender().isEmpty()) {
+            if (message.text() == null || message.text().isEmpty()) {
                 Printer anonymousPrinter = msg -> System.out.println("Опрацьовується пусте повідомлення від анонімного користувача...");
                 anonymousPrinter.print(message);
             } else {
-                System.out.println("Анонімний користувач відправив повідомлення: " + message.getText());
+                System.out.println("Анонімний користувач відправив повідомлення: " + message.text());
             }
         } else {
-            System.out.println("Користувач " + message.getSender() + " відправив повідомлення: " + message.getText());
+            System.out.println("Користувач " + message.sender() + " відправив повідомлення: " + message.text());
         }
     }
 
-    // Main method for testing
     public static void main(String[] args) {
         Main printer = new Main();
 
-        // Test cases
         Message message1 = new Message("Привіт, світ!", "Іван");
         printer.print(message1);
 
